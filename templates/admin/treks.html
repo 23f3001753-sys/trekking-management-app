@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Manage Treks{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Manage Treks</h3>
+    <a href="{{ url_for('admin.new_trek') }}" class="btn btn-success"><i class="bi bi-plus-circle"></i> New Trek</a>
+</div>
+
+<div class="table-responsive">
+<table class="table table-hover bg-white align-middle">
+    <thead>
+        <tr>
+            <th>ID</th><th>Name</th><th>Location</th><th>Difficulty</th><th>Duration</th>
+            <th>Slots</th><th>Status</th><th>Assigned Staff</th><th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for trek in treks %}
+        <tr>
+            <td>{{ trek.id }}</td>
+            <td>{{ trek.name }}</td>
+            <td>{{ trek.location }}</td>
+            <td><span class="badge badge-difficulty-{{ trek.difficulty }}">{{ trek.difficulty }}</span></td>
+            <td>{{ trek.duration_days }} days</td>
+            <td>{{ trek.available_slots }} / {{ trek.total_slots }}</td>
+            <td><span class="badge badge-status-{{ trek.status }}">{{ trek.status }}</span></td>
+            <td>{{ trek.staff.name if trek.staff else "—" }}</td>
+            <td>
+                <div class="d-flex gap-1 flex-wrap">
+                    <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#assignModal{{ trek.id }}">Assign</button>
+                    <form method="POST" action="{{ url_for('admin.delete_trek', trek_id=trek.id) }}" onsubmit="return confirm('Delete this trek?');">
+                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+
+        <div class="modal fade" id="assignModal{{ trek.id }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="POST" action="{{ url_for('admin.assign_staff', trek_id=trek.id) }}">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Assign Staff to {{ trek.name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <select name="staff_id" class="form-select">
+                                <option value="">-- Unassign --</option>
+                                {% for s in approved_staff_list %}
+                                <option value="{{ s.id }}" {% if trek.assigned_staff_id == s.id %}selected{% endif %}>{{ s.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <tr><td colspan="9" class="text-center text-muted py-4">No treks created yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

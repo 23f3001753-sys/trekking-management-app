@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Trekking Management Application{% endblock %}
+{% block content %}
+<div class="hero-section text-center mb-5">
+    <h1 class="display-5 fw-bold"><i class="bi bi-mountain"></i> Trekking Management Application</h1>
+    <p class="lead mt-3">Plan, approve, and track trekking adventures — for Admins, Trek Staff, and Trekkers, all in one place.</p>
+    <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg me-2">Get Started</a>
+    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg">Login</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card p-4 h-100">
+            <i class="bi bi-shield-lock fs-1 text-success mb-2"></i>
+            <h5>Admin</h5>
+            <p class="text-muted">Manage treks, approve staff, oversee bookings, and keep the whole system running smoothly.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4 h-100">
+            <i class="bi bi-person-badge fs-1 text-primary mb-2"></i>
+            <h5>Trek Staff</h5>
+            <p class="text-muted">Manage assigned treks, update slots and status, and track your trekkers.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4 h-100">
+            <i class="bi bi-backpack fs-1 text-warning mb-2"></i>
+            <h5>Trekker</h5>
+            <p class="text-muted">Discover open treks, book your next adventure, and track your trekking history.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Browse Treks{% endblock %}
+{% block content %}
+<h3 class="mb-4">Browse Treks</h3>
+
+<form method="GET" class="row g-2 mb-4">
+    <div class="col-md-3">
+        <input type="text" name="q" class="form-control" placeholder="Search by name" value="{{ keyword }}">
+    </div>
+    <div class="col-md-3">
+        <input type="text" name="location" class="form-control" placeholder="Filter by location" value="{{ location }}">
+    </div>
+    <div class="col-md-3">
+        <select name="difficulty" class="form-select">
+            <option value="">All Difficulties</option>
+            {% for d in ["Easy", "Moderate", "Hard"] %}
+            <option value="{{ d }}" {% if difficulty == d %}selected{% endif %}>{{ d }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button class="btn btn-success w-100">Apply Filters</button>
+    </div>
+</form>
+
+<div class="row g-3">
+    {% for trek in treks %}
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="trek-card-img"><i class="bi bi-tree"></i></div>
+            <div class="card-body">
+                <h5 class="card-title">{{ trek.name }}</h5>
+                <p class="text-muted mb-1"><i class="bi bi-geo-alt"></i> {{ trek.location }}</p>
+                <span class="badge badge-difficulty-{{ trek.difficulty }}">{{ trek.difficulty }}</span>
+                <span class="badge badge-status-{{ trek.status }}">{{ trek.status }}</span>
+                <p class="mt-2 mb-1">Duration: {{ trek.duration_days }} days</p>
+                <p class="mb-2">Slots left: {{ trek.available_slots }} / {{ trek.total_slots }}</p>
+
+                {% if trek.id in booked_trek_ids %}
+                    <button class="btn btn-sm btn-secondary w-100" disabled>Already Booked</button>
+                {% elif trek.status == "Open" and trek.available_slots > 0 %}
+                    <form method="POST" action="{{ url_for('user.book_trek', trek_id=trek.id) }}">
+                        <button class="btn btn-sm btn-success w-100">Book Now</button>
+                    </form>
+                {% elif trek.available_slots <= 0 %}
+                    <button class="btn btn-sm btn-secondary w-100" disabled>Fully Booked</button>
+                {% else %}
+                    <button class="btn btn-sm btn-secondary w-100" disabled>Closed</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12"><div class="card p-4 text-center text-muted">No treks match your search.</div></div>
+    {% endfor %}
+</div>
+{% endblock %}

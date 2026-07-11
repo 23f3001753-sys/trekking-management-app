@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h3 class="mb-4">Admin Dashboard</h3>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3 col-6">
+        <div class="stat-card bg-1">
+            <small>Total Treks</small>
+            <h2>{{ total_treks }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat-card bg-2">
+            <small>Users &amp; Staff</small>
+            <h2>{{ total_users + total_staff }}</h2>
+            <small>{{ total_users }} users · {{ total_staff }} staff</small>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat-card bg-3">
+            <small>Total Bookings</small>
+            <h2>{{ total_bookings }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat-card bg-4">
+            <small>Pending Staff Approvals</small>
+            <h2>{{ pending_staff }}</h2>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5>Quick Actions</h5>
+            <div class="d-grid gap-2 mt-3">
+                <a href="{{ url_for('admin.new_trek') }}" class="btn btn-outline-success"><i class="bi bi-plus-circle"></i> Create New Trek</a>
+                <a href="{{ url_for('admin.staff_list') }}" class="btn btn-outline-primary"><i class="bi bi-person-check"></i> Review Staff Approvals</a>
+                <a href="{{ url_for('admin.search') }}" class="btn btn-outline-secondary"><i class="bi bi-search"></i> Search Records</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5>Recent Bookings</h5>
+            {% if recent_bookings %}
+            <ul class="list-group list-group-flush mt-2">
+                {% for b in recent_bookings %}
+                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <span>{{ b.user.name }} &rarr; {{ b.trek.name }}</span>
+                    <span class="badge badge-status-{{ b.status }}">{{ b.status }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-muted mt-2 mb-0">No bookings yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

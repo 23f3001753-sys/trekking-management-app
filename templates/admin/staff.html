@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Manage Trek Staff{% endblock %}
+{% block content %}
+<h3 class="mb-4">Manage Trek Staff</h3>
+
+<div class="table-responsive">
+<table class="table table-hover bg-white align-middle">
+    <thead>
+        <tr><th>ID</th><th>Name</th><th>Email</th><th>Contact</th><th>Status</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for staff in staff_members %}
+        <tr>
+            <td>{{ staff.id }}</td>
+            <td>{{ staff.name }}</td>
+            <td>{{ staff.email }}</td>
+            <td>{{ staff.contact or "—" }}</td>
+            <td>
+                {% if staff.is_blacklisted %}
+                    <span class="badge bg-danger">Blacklisted</span>
+                {% elif staff.is_approved %}
+                    <span class="badge bg-success">Approved</span>
+                {% else %}
+                    <span class="badge bg-secondary">Pending Approval</span>
+                {% endif %}
+            </td>
+            <td>
+                <div class="d-flex gap-1 flex-wrap">
+                    {% if not staff.is_approved and not staff.is_blacklisted %}
+                    <form method="POST" action="{{ url_for('admin.approve_staff', staff_id=staff.id) }}">
+                        <button class="btn btn-sm btn-success">Approve</button>
+                    </form>
+                    {% endif %}
+                    <form method="POST" action="{{ url_for('admin.toggle_blacklist_staff', staff_id=staff.id) }}">
+                        <button class="btn btn-sm {{ 'btn-outline-secondary' if staff.is_blacklisted else 'btn-outline-danger' }}">
+                            {{ "Reinstate" if staff.is_blacklisted else "Blacklist" }}
+                        </button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center text-muted py-4">No trek staff registered yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

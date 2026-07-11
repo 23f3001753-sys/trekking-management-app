@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Manage Users{% endblock %}
+{% block content %}
+<h3 class="mb-4">Manage Trekkers (Users)</h3>
+
+<div class="table-responsive">
+<table class="table table-hover bg-white align-middle">
+    <thead>
+        <tr><th>ID</th><th>Name</th><th>Email</th><th>Contact</th><th>Status</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.contact or "—" }}</td>
+            <td>
+                {% if user.is_blacklisted %}
+                    <span class="badge bg-danger">Blacklisted</span>
+                {% else %}
+                    <span class="badge bg-success">Active</span>
+                {% endif %}
+            </td>
+            <td>
+                <form method="POST" action="{{ url_for('admin.toggle_blacklist_user', user_id=user.id) }}">
+                    <button class="btn btn-sm {{ 'btn-outline-secondary' if user.is_blacklisted else 'btn-outline-danger' }}">
+                        {{ "Reinstate" if user.is_blacklisted else "Blacklist" }}
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center text-muted py-4">No users registered yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

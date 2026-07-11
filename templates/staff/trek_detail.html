@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ trek.name }}{% endblock %}
+{% block content %}
+<h3 class="mb-4">{{ trek.name }}</h3>
+
+<div class="row g-4">
+    <div class="col-md-5">
+        <div class="card p-4">
+            <h5>Trek Details</h5>
+            <p class="text-muted mb-1"><i class="bi bi-geo-alt"></i> {{ trek.location }}</p>
+            <p class="mb-1">Difficulty: <span class="badge badge-difficulty-{{ trek.difficulty }}">{{ trek.difficulty }}</span></p>
+            <p class="mb-1">Duration: {{ trek.duration_days }} days</p>
+            <p class="mb-3">Dates: {{ trek.start_date or "—" }} to {{ trek.end_date or "—" }}</p>
+            <p class="text-muted">{{ trek.description }}</p>
+
+            <form method="POST" action="{{ url_for('staff.update_trek', trek_id=trek.id) }}">
+                <div class="mb-3">
+                    <label class="form-label">Available Slots (Total: {{ trek.total_slots }})</label>
+                    <input type="number" min="0" max="{{ trek.total_slots }}" name="available_slots" class="form-control" value="{{ trek.available_slots }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Trek Status</label>
+                    <select name="status" class="form-select">
+                        {% for s in ["Approved", "Open", "Closed", "Completed"] %}
+                        <option value="{{ s }}" {% if trek.status == s %}selected{% endif %}>{{ s }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Update Trek</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <div class="card p-4">
+            <h5>Registered Trekkers ({{ participants|length }})</h5>
+            <div class="table-responsive mt-2">
+            <table class="table table-sm">
+                <thead><tr><th>Name</th><th>Email</th><th>Booked On</th><th>Status</th></tr></thead>
+                <tbody>
+                {% for p in participants %}
+                    <tr>
+                        <td>{{ p.user.name }}</td>
+                        <td>{{ p.user.email }}</td>
+                        <td>{{ p.booking_date.strftime("%d %b %Y") }}</td>
+                        <td><span class="badge badge-status-{{ p.status }}">{{ p.status }}</span></td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4" class="text-center text-muted py-3">No trekkers registered yet.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

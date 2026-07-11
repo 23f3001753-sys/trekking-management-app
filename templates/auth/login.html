@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="card auth-card p-4">
+    <h3 class="mb-3 text-center">Login</h3>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required autofocus>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Login</button>
+    </form>
+    <p class="text-center mt-3 mb-0">
+        Don't have an account? <a href="{{ url_for('auth.register') }}">Register here</a>
+    </p>
+    <hr>
+    <p class="small text-muted mb-0 text-center">
+        Admin demo login: <code>admin@trekking.com</code> / <code>Admin@123</code>
+    </p>
+</div>
+{% endblock %}

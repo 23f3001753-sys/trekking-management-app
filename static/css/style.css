@@ -1,0 +1,63 @@
+body {
+    background-color: #f4f7f5;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.trek-navbar {
+    background: linear-gradient(90deg, #1b4332, #2d6a4f);
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.stat-card {
+    border-radius: 14px;
+    color: #fff;
+    padding: 1.5rem;
+}
+
+.stat-card.bg-1 { background: linear-gradient(135deg, #2d6a4f, #40916c); }
+.stat-card.bg-2 { background: linear-gradient(135deg, #1d3557, #457b9d); }
+.stat-card.bg-3 { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+.stat-card.bg-4 { background: linear-gradient(135deg, #b45309, #f59e0b); }
+
+.stat-card h2 { font-weight: 700; margin-bottom: 0; }
+.stat-card small { opacity: 0.85; }
+
+.trek-card-img {
+    height: 130px;
+    border-radius: 12px 12px 0 0;
+    background: linear-gradient(135deg, #52b788, #2d6a4f);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2.5rem;
+}
+
+.badge-difficulty-Easy { background-color: #40916c; }
+.badge-difficulty-Moderate { background-color: #e9a208; }
+.badge-difficulty-Hard { background-color: #d62828; }
+
+.badge-status-Pending { background-color: #adb5bd; }
+.badge-status-Approved { background-color: #457b9d; }
+.badge-status-Open { background-color: #2d6a4f; }
+.badge-status-Closed { background-color: #6c757d; }
+.badge-status-Completed { background-color: #7c3aed; }
+.badge-status-Booked { background-color: #2d6a4f; }
+.badge-status-Cancelled { background-color: #d62828; }
+
+.hero-section {
+    background: linear-gradient(135deg, #1b4332, #40916c);
+    border-radius: 16px;
+    color: white;
+    padding: 4rem 2rem;
+}
+
+.auth-card {
+    max-width: 460px;
+    margin: 2rem auto;
+}
