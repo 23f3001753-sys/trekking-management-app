@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Trekking Management Application
 
 A role-based web application (Admin / Trek Staff / User) built with **Flask**, **Jinja2**, **Bootstrap**, and **SQLite**, for managing treks, staff assignment, and trekker bookings.
@@ -96,5 +96,3 @@ Relationships:
 - One **User** (trekker) → many **Bookings**
 - One **Trek** → many **Bookings**
 =======
-# trekking-management-app
->>>>>>> a35cd0d7f5353b8c22a3f039d98188c0e1a9a264
